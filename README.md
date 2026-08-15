@@ -1,39 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-Commerce Frontend
 
-## Getting Started
+A modern e-commerce frontend application built with **Next.js, React, TypeScript, and Tailwind CSS**.
 
-First, run the development server:
+The application provides a user interface for browsing products, managing a shopping cart, adding products to a wishlist, and completing the checkout process through API integration.
+
+## Technologies
+
+* Next.js
+* React.js
+* TypeScript
+* JavaScript
+* Tailwind CSS
+* Axios
+* REST API
+* NextAuth
+
+## Features
+
+### Authentication
+
+* User registration
+* User login
+* Authentication handling
+* Protected application functionality
+
+### Products
+
+* Browse products
+* Product details
+* Product categories
+* Product brands
+
+### Shopping Cart
+
+* Add products to cart
+* Manage cart items
+* Cart management
+
+### Wishlist
+
+* Add products to wishlist
+* Manage wishlist items
+
+### Checkout
+
+* Checkout process
+* Order creation
+* Order management
+
+## API Integration
+
+The application integrates with a REST API to retrieve and manage application data.
+
+Axios is used for HTTP requests and communication with the backend API.
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/MohamedAlgot/Store.git
+```
+
+Navigate to the project:
+
+```bash
+cd Store
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+## Environment Variables
+
+Create a `.env.local` file and configure the required environment variables.
+
+Never upload real API keys, authentication secrets, or private credentials to GitHub.
+
+## Running the Application
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the application in your browser:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Live Demo
 
-## Learn More
+https://store-flame-sigma-18.vercel.app/login
 
-To learn more about Next.js, take a look at the following resources:
+## Project Highlights
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project demonstrates practical frontend development using **Next.js, React, TypeScript, Tailwind CSS, Axios, and REST API integration**, with features including authentication, product browsing, product details, cart management, wishlist management, and checkout.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Author
 
-## Deploy on Vercel
+**Mohamed Elkot Ali**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Full Stack Developer
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# FreshCart" 
-"# FreshCart" 
-"# FreshCart" 
+Cairo, Egypt
+
+GitHub: https://github.com/MohamedAlgot
