@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
@@ -24,9 +23,11 @@ export default async function Brand() {
           className="
             group
             w-full
+            h-full
             overflow-hidden
             border-0
             cursor-pointer
+            transition-all
             duration-500
             hover:shadow-xl
             hover:shadow-green-300
@@ -38,11 +39,13 @@ export default async function Brand() {
               className="
                 relative
                 w-full
-                aspect-square
-                sm:aspect-[4/3]
-                md:aspect-[4/3]
-                lg:aspect-[4/3]
-                xl:aspect-square
+                h-[150px]
+                sm:h-[170px]
+                md:h-[190px]
+                lg:h-[210px]
+                xl:h-[230px]
+                overflow-hidden
+                bg-white
               "
             >
               <Image
@@ -63,7 +66,8 @@ export default async function Brand() {
                   (max-width: 640px) 50vw,
                   (max-width: 768px) 33vw,
                   (max-width: 1024px) 25vw,
-                  20vw
+                  (max-width: 1280px) 20vw,
+                  16.66vw
                 "
               />
             </div>
@@ -72,21 +76,26 @@ export default async function Brand() {
           <CardFooter
             className="
               flex
+              items-center
               justify-center
+              min-h-[55px]
               px-2
               py-3
-              sm:px-3
-              sm:py-4
+              sm:min-h-[60px]
+              md:min-h-[65px]
             "
           >
             <p
               className="
+                w-full
                 text-center
                 font-bold
+                leading-tight
                 text-base
                 sm:text-lg
                 md:text-xl
-                lg:text-2xl
+                lg:text-xl
+                xl:text-2xl
                 break-words
               "
             >

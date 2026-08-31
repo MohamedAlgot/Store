@@ -1,17 +1,22 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
-import {  useRouter } from "next/navigation";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
+interface Inputs {
+  email: string;
+  newPassword: string;
+}
+
 export default function ChangePassword() {
-  interface Inputs {
-    email: string;
-    newPassword: string;
-  }
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -19,55 +24,152 @@ export default function ChangePassword() {
   } = useForm<Inputs>();
 
   const router = useRouter();
+
   async function onSubmit(values: Inputs) {
+    if (isLoading) return;
+
     try {
+      setIsLoading(true);
+
       const response = await axios.put(
         "https://ecommerce.routemisr.com/api/v1/auth/resetPassword",
         values
-        
       );
-          toast.success(<p className="text-green-600">{"The change was completed successfully"}</p>);
 
-      if (response.statusText === "OK") {
-        router.push("login");
+      if (response.status === 200) {
+        toast.success("The change was completed successfully");
+        router.push("/login");
       }
+    } catch (error: unknown) {
+      console.error(error);
 
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Failed to change password"
+        );
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setIsLoading(false);
     }
-    console.log(values);
   }
 
   return (
-    <div className=" w-1/2 mx-auto shadow-2xl my-10 pb-5 rounded-xl">
-      <h2 className="font-bold text-4xl text-green-500 text-start p-7">
+    <div
+      className="
+        mx-auto
+        my-8
+        w-[92%]
+        max-w-2xl
+        rounded-xl
+        shadow-2xl
+        sm:my-10
+        sm:w-[85%]
+      "
+    >
+      <h2
+        className="
+          p-5
+          text-3xl
+          font-bold
+          text-green-500
+          sm:p-7
+          sm:text-4xl
+        "
+      >
         Change password
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="mx-9">
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="px-5 pb-6 sm:mx-9 sm:px-0"
+      >
+        {/* Email */}
         <Input
           type="email"
           placeholder="Your Email"
-          className="focus-visible:ring-0 focus-visible:ring-offset-0 p-5 my-3
-                   focus:border-green-500  focus:shadow-green-300 border-gray-300 "
-          {...register("email", { required: "Email is required" })}
+          className="
+            my-3
+            w-full
+            p-5
+            border-gray-300
+            focus:border-green-500
+            focus:shadow-green-300
+            focus-visible:ring-0
+            focus-visible:ring-offset-0
+          "
+          {...register("email", {
+            required: "Email is required",
+          })}
         />
 
+        {errors.email && (
+          <p className="text-sm text-red-800">
+            {errors.email.message}
+          </p>
+        )}
+
+        {/* New Password */}
         <Input
           type="password"
           placeholder="Your New Password"
-          className="focus-visible:ring-0 focus-visible:ring-offset-0 p-5 my-3
-                   focus:border-green-500  focus:shadow-green-300 border-gray-300 "
-          {...register("newPassword", { required: "newPassword is required" })}
+          className="
+            my-3
+            w-full
+            p-5
+            border-gray-300
+            focus:border-green-500
+            focus:shadow-green-300
+            focus-visible:ring-0
+            focus-visible:ring-offset-0
+          "
+          {...register("newPassword", {
+            required: "New password is required",
+            minLength: {
+              value: 6,
+              message: "Password must be at least 6 characters",
+            },
+          })}
         />
 
-        {errors.newPassword && <p className="text-red-800">{errors.newPassword.message}</p>}
+        {errors.newPassword && (
+          <p className="text-sm text-red-800">
+            {errors.newPassword.message}
+          </p>
+        )}
 
+        {/* Save */}
         <Button
           type="submit"
-          className="px-7 py-5 duration-300 hover:bg-green-500  cursor-pointer hover:text-white border-1   border-gray-300 font-bold"
+          disabled={isLoading}
+          className="
+            mt-2
+            flex
+            cursor-pointer
+            items-center
+            justify-center
+            gap-2
+            border
+            border-gray-300
+            px-7
+            py-5
+            font-bold
+            duration-300
+            hover:bg-green-500
+            hover:text-white
+            disabled:cursor-not-allowed
+            disabled:opacity-70
+          "
         >
-          Save
+          {isLoading ? (
+            <>
+              <Loader2 size={18} className="animate-spin" />
+              Saving...
+            </>
+          ) : (
+            "Save"
+          )}
         </Button>
       </form>
     </div>

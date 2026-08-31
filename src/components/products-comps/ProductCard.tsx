@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -13,97 +12,209 @@ import {
 import { products } from "@/app/types/product.model";
 import Image from "next/image";
 import { StarRating } from "react-flexible-star-rating";
-import { Heart, ShoppingCart, ZoomIn } from "lucide-react";
-import Link from "next/link";
-import { log } from "console";
-import { getAddproduct, removeproduct } from "@/app/actions/Cart.action";
+import { Heart, ShoppingCart, Loader2 } from "lucide-react";
+import { getAddproduct } from "@/app/actions/Cart.action";
 import toast from "react-hot-toast";
 import { UseCart } from "@/app/context/Cartcontext";
-import { Input } from "../ui/input";
 import { AddWhishlist } from "@/app/actions/whishlist";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+
 export default function ProductCard({ product }: { product: products }) {
+  const router = useRouter();
 
-    const {getCartDetails}= UseCart();
-    const {getWhishlistDetails}=UseCart()
+  const { getCartDetails, getWhishlistDetails } = UseCart();
 
-  async function handleAddtoCart(productId:string) {
+  const [isCartLoading, setIsCartLoading] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
 
+  async function handleAddtoCart(productId: string) {
+    if (isCartLoading) return;
 
-    const response=await getAddproduct(productId);
+    try {
+      setIsCartLoading(true);
 
+      const response = await getAddproduct(productId);
 
-    console.log(response);
-    toast.success(<p className="text-green-600">{response?.message}</p> );
-    
-    await getCartDetails();
-     
+      toast.success(response?.message || "Product added to cart");
+
+      await getCartDetails();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to add product to cart");
+    } finally {
+      setIsCartLoading(false);
+    }
   }
 
-    async function handleAddtoWhishlist(productId:string) {
+  async function handleAddtoWhishlist(productId: string) {
+    if (isWishlistLoading) return;
 
+    try {
+      setIsWishlistLoading(true);
 
-    const response=await AddWhishlist(productId);
+      const response = await AddWhishlist(productId);
 
+      toast.success(response?.message || "Product added to wishlist");
 
-    console.log(response);
-    toast.success(<p className="text-green-600">{response?.message}</p> );
-    
-     await getWhishlistDetails();
+      await getWhishlistDetails();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to add product to wishlist");
+    } finally {
+      setIsWishlistLoading(false);
+    }
   }
 
+  function handleCardClick(e: React.MouseEvent<HTMLDivElement>) {
+    const target = e.target as HTMLElement;
 
+    if (target.closest("button")) {
+      return;
+    }
 
-  
-
-
+    router.push(`/products/${product._id}`);
+  }
 
   return (
-    <div>
+    <Card
+      onClick={handleCardClick}
+      className="
+        relative
+        h-full
+        w-full
+        cursor-pointer
+        overflow-hidden
+        border-0
+        transition-all
+        duration-500
+        group
+        hover:text-green-600
+        hover:shadow-xl
+        hover:shadow-green-400
+      "
+    >
+      <CardHeader className="px-4 py-3">
+        <CardTitle className="line-clamp-2 text-sm sm:text-base">
+          {product.title.split(" ").slice(0, 2).join(" ")}
+        </CardTitle>
 
-      <Card className=" relative hover:shadow-xl duration-500 hover:shadow-green-400 border-0 hover:text-green-600 group overflow-hidden">
-        <div className=" absolute z-1  top-[100px] right-[-100] flex-col flex gap-3 duration-400 group-hover:right-0">
-          <button onClick={()=>handleAddtoCart(product._id)} className="p-2 text-black bg-slate-200 duration-150 hover:text-green-500 cursor-pointer">
-            <ShoppingCart />
-          </button>
-          <button onClick={()=>handleAddtoWhishlist(product._id)} className="p-2 text-black bg-slate-200 duration-150 hover:text-red-500 cursor-pointer">
-            <Heart />
-          </button>
-          <button className="p-2 text-black bg-slate-200 duration-150 hover:text-blue-500 cursor-pointer">
-            <Link href={`/products/${product._id}`}>
-              <ZoomIn />
-            </Link>
-          </button>
+        <CardDescription className="line-clamp-2 text-xs sm:text-sm">
+          {product.description.split(" ").slice(0, 7).join(" ")}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="px-4 py-2">
+        <div
+          className="
+            relative
+            h-[140px]
+            w-full
+            overflow-hidden
+            sm:h-[160px]
+            md:h-[175px]
+            lg:h-[190px]
+            xl:h-[200px]
+          "
+        >
+          <Image
+            src={product.imageCover}
+            alt={product.description}
+            fill
+            className="
+              object-contain
+              p-1
+              transition-transform
+              duration-500
+              group-hover:scale-105
+            "
+            sizes="
+              (max-width: 640px) 50vw,
+              (max-width: 768px) 33vw,
+              (max-width: 1024px) 25vw,
+              20vw
+            "
+          />
         </div>
-        <CardHeader>
-          <CardTitle>
-            {product.title.split(" ").splice(0, 2).join(" ")}
-          </CardTitle>
-          <CardDescription>
-            {product.description.split(" ").splice(0, 7).join(" ")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="w-full relative h-[250]">
-            <Image
-              src={product.imageCover}
-              alt={product.description}
-              property=""
-              fill
-              sizes="(max-width:768px) 100vw ,(max-width:1200px) 50vw , 25vw "
-            />
-          </div>
-        </CardContent>
-        <CardFooter className="flex-col items-start">
-          <p className="text-lg font-bold  ">
-            Price <span>{product.price} EGP</span>
-          </p>
+      </CardContent>
 
+      <CardFooter className="flex flex-col items-start gap-2 px-4 pb-4 pt-2">
+        <p className="text-sm font-bold sm:text-base">
+          Price <span>{product.price} EGP</span>
+        </p>
+
+        <div className="flex items-center gap-2">
           <StarRating
             initialRating={Math.floor(product.ratingsAverage)}
-            dimension={6}
+            dimension={5}
           />
-        </CardFooter>
-      </Card>
-    </div>
+
+          <span className="text-xs font-medium sm:text-sm">
+            {product.ratingsAverage}
+          </span>
+        </div>
+
+        <div className="flex w-full items-center gap-2">
+          <Button
+            type="button"
+            disabled={isCartLoading}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddtoCart(product._id);
+            }}
+            className="
+              flex-1
+              cursor-pointer
+              bg-green-600
+              px-3
+              py-2
+              text-sm
+              font-bold
+              text-white
+              disabled:cursor-not-allowed
+              disabled:opacity-60
+            "
+          >
+            {isCartLoading ? (
+              <>
+                <Loader2 className="mr-1 animate-spin" size={16} />
+                Adding...
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="mr-1" size={16} />
+                Add Product
+              </>
+            )}
+          </Button>
+
+          <Button
+            type="button"
+            disabled={isWishlistLoading}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddtoWhishlist(product._id);
+            }}
+            aria-label="Add to wishlist"
+            className="
+              h-9
+              w-9
+              shrink-0
+              cursor-pointer
+              bg-white
+              p-0
+              text-black
+              hover:bg-white
+            "
+          >
+            {isWishlistLoading ? (
+              <Loader2 className="animate-spin" size={17} />
+            ) : (
+              <Heart size={18} />
+            )}
+          </Button>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }

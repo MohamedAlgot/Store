@@ -5,7 +5,7 @@ import CatsliderComp from "@/components/slider-comps/CatsliderComp";
 import { getproducts } from "./actions/product.action";
 import ProductGridSystem from "@/components/products-comps/ProductGridSystem";
 import { getServerSession } from "next-auth";
-import { options } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 export default async function Home() {
   const response = await getCategories();
@@ -16,7 +16,7 @@ export default async function Home() {
 
   const products=responsedata?.data||[];
 
-  const session = await getServerSession(options);
+  const session = await getServerSession(authOptions);
 
   console.log(session,"session");
   

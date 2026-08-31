@@ -1,107 +1,308 @@
 "use client";
+
 import React from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+// Swiper styles
 
-// import required modules
+// Swiper modules
 import { EffectFade, Navigation, Pagination } from "swiper/modules";
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { MoveRight } from "lucide-react";
 
 export default function MainSlider() {
   return (
-    <>
+    <div className="w-full overflow-hidden">
       <Swiper
-        spaceBetween={30}
-        effect={"fade"}
-        navigation={true}
+        spaceBetween={0}
+        effect="fade"
+        navigation
         pagination={{
           clickable: true,
         }}
         modules={[EffectFade, Navigation, Pagination]}
-        className="mySwiper"
+        className="w-full"
       >
+        {/* Slide 1 */}
         <SwiperSlide>
-          <div className="relative h-[600px] w-auto">
+          <div
+            className="
+              relative
+              h-[400px]
+              w-full
+              sm:h-[450px]
+              md:h-[500px]
+              lg:h-[550px]
+              xl:h-[600px]
+            "
+          >
             <Image
               src="/slider/1 (1).jpg"
               fill
               priority
-              loading="eager"
-              sizes="(max-width:768px)100vw(max-width:1200px)50vw,25vw"
-              alt="error slider"
-              className="object-fit"
+              sizes="100vw"
+              alt="Summer Collection"
+              className="object-cover"
             />
-            <div className="absolute top-[200px] left-[100px]">
-              <h2 className=" font-bold text-6xl text-blue-950  my-4">Summer Collection </h2>
-              <p className=" font-bold text-xl   my-4 ">
+
+            <div
+              className="
+                absolute
+                left-5
+                top-1/2
+                w-[85%]
+                -translate-y-1/2
+                sm:left-10
+                sm:w-[70%]
+                md:left-16
+                md:w-[60%]
+                lg:left-20
+                lg:w-[55%]
+                xl:left-24
+                xl:w-[50%]
+              "
+            >
+              <h2
+                className="
+                  my-3
+                  text-3xl
+                  font-bold
+                  leading-tight
+                  text-blue-950
+                  sm:text-4xl
+                  md:text-5xl
+                  lg:text-6xl
+                "
+              >
+                Summer Collection
+              </h2>
+
+              <p
+                className="
+                  my-3
+                  text-sm
+                  font-bold
+                  sm:text-base
+                  md:text-lg
+                  lg:text-xl
+                "
+              >
                 Fresh styles made for the season, shop now
               </p>
 
-              <Button className=" text-white p-6 bg-black cursor-pointer hover:text-black border border-black  duration-300 hover:bg-transparent hover:border-black  ">
-                <h2 className="text-xl">Shop Now</h2> <MoveRight />
+              <Button
+                className="
+                  cursor-pointer
+                  border
+                  border-black
+                  bg-black
+                  p-4
+                  text-sm
+                  text-white
+                  duration-300
+                  hover:border-black
+                  hover:bg-transparent
+                  hover:text-black
+                  sm:p-5
+                  sm:text-base
+                  md:p-6
+                  md:text-lg
+                "
+              >
+                Shop Now
+                <MoveRight className="ml-1" />
               </Button>
             </div>
           </div>
         </SwiperSlide>
 
+        {/* Slide 2 */}
         <SwiperSlide>
-          <div className="relative h-[600px] w-full">
+          <div
+            className="
+              relative
+              h-[400px]
+              w-full
+              sm:h-[450px]
+              md:h-[500px]
+              lg:h-[550px]
+              xl:h-[600px]
+            "
+          >
             <Image
               src="/slider/1 (2).jpg"
               fill
-              priority
-              loading="eager"
-              sizes="(max-width:768px)100vw(max-width:1200px)50vw,25vw"
-              alt="error slider"
-              className="object-fit"
+              sizes="100vw"
+              alt="Summer Collection"
+              className="object-cover"
             />
 
-            <div className="absolute top-[200px] left-[100px]">
-              <h2 className=" font-bold text-6xl text-blue-950  my-4">Summer Collection </h2>
-              <p className=" font-bold text-xl   my-4 ">
+            <div
+              className="
+                absolute
+                left-5
+                top-1/2
+                w-[85%]
+                -translate-y-1/2
+                sm:left-10
+                sm:w-[70%]
+                md:left-16
+                md:w-[60%]
+                lg:left-20
+                lg:w-[55%]
+                xl:left-24
+                xl:w-[50%]
+              "
+            >
+              <h2
+                className="
+                  my-3
+                  text-3xl
+                  font-bold
+                  leading-tight
+                  text-blue-950
+                  sm:text-4xl
+                  md:text-5xl
+                  lg:text-6xl
+                "
+              >
+                Summer Collection
+              </h2>
+
+              <p
+                className="
+                  my-3
+                  text-sm
+                  font-bold
+                  sm:text-base
+                  md:text-lg
+                  lg:text-xl
+                "
+              >
                 Fresh styles made for the season, shop now
               </p>
 
-              <Button className=" text-white p-6 bg-black cursor-pointer hover:text-black border border-black  duration-300 hover:bg-transparent hover:border-black  ">
-                <h2 className="text-xl">Shop Now</h2> <MoveRight />
+              <Button
+                className="
+                  cursor-pointer
+                  border
+                  border-black
+                  bg-black
+                  p-4
+                  text-sm
+                  text-white
+                  duration-300
+                  hover:border-black
+                  hover:bg-transparent
+                  hover:text-black
+                  sm:p-5
+                  sm:text-base
+                  md:p-6
+                  md:text-lg
+                "
+              >
+                Shop Now
+                <MoveRight className="ml-1" />
               </Button>
             </div>
           </div>
         </SwiperSlide>
 
-
+        {/* Slide 3 */}
         <SwiperSlide>
-          <div className="relative h-[600px] w-full">
+          <div
+            className="
+              relative
+              h-[400px]
+              w-full
+              sm:h-[450px]
+              md:h-[500px]
+              lg:h-[550px]
+              xl:h-[600px]
+            "
+          >
             <Image
               src="/slider/4.png"
               fill
-              priority
-              loading="eager"
-              sizes="(max-width:768px)100vw(max-width:1200px)50vw,25vw"
-              alt="error slider"
-              className="object-fit"
+              sizes="100vw"
+              alt="Summer Collection"
+              className="object-cover"
             />
-            <div className="absolute top-[200px] left-[100px]">
-              <h2 className=" font-bold text-6xl text-blue-950  my-4">Summer Collection </h2>
-              <p className=" font-bold text-xl   my-4 ">
+
+            <div
+              className="
+                absolute
+                left-5
+                top-1/2
+                w-[85%]
+                -translate-y-1/2
+                sm:left-10
+                sm:w-[70%]
+                md:left-16
+                md:w-[60%]
+                lg:left-20
+                lg:w-[55%]
+                xl:left-24
+                xl:w-[50%]
+              "
+            >
+              <h2
+                className="
+                  my-3
+                  text-3xl
+                  font-bold
+                  leading-tight
+                  text-blue-950
+                  sm:text-4xl
+                  md:text-5xl
+                  lg:text-6xl
+                "
+              >
+                Summer Collection
+              </h2>
+
+              <p
+                className="
+                  my-3
+                  text-sm
+                  font-bold
+                  sm:text-base
+                  md:text-lg
+                  lg:text-xl
+                "
+              >
                 Fresh styles made for the season, shop now
               </p>
 
-              <Button className=" text-white p-6 bg-black cursor-pointer hover:text-black border border-black  duration-300 hover:bg-transparent hover:border-black  ">
-                <h2 className="text-xl">Shop Now</h2> <MoveRight />
+              <Button
+                className="
+                  cursor-pointer
+                  border
+                  border-black
+                  bg-black
+                  p-4
+                  text-sm
+                  text-white
+                  duration-300
+                  hover:border-black
+                  hover:bg-transparent
+                  hover:text-black
+                  sm:p-5
+                  sm:text-base
+                  md:p-6
+                  md:text-lg
+                "
+              >
+                Shop Now
+                <MoveRight className="ml-1" />
               </Button>
             </div>
           </div>
         </SwiperSlide>
       </Swiper>
-    </>
+    </div>
   );
 }

@@ -1,50 +1,91 @@
-import React  from "react";
+import React from "react";
 import {
   Card,
   CardContent,
   CardFooter,
-
 } from "@/components/ui/card";
 import Image from "next/image";
 import { getCategories } from "@/app/actions/categories.action";
+import { categories } from "@/app/types/categort.model";
 
-
-export interface ICategory {
-  _id: string;
-  name: string;
-  slug: string;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 
 export default async function ProductCategories() {
-  
   const response = await getCategories();
 
-  console.log(response);
-
   return (
-    < >
-      {response?.data.map((cat:ICategory) => (
-        <Card key={cat._id} className="hover:shadow-lg cursor-pointer duration-500 hover:shadow-green-300 border-0" >
-          <CardContent>
-            <div className="w-full relative h-[250px]">
+    <>
+      {response?.data.map((cat: categories) => (
+        <Card
+          key={cat._id}
+          className="
+            w-full
+            h-full
+            overflow-hidden
+            border-0
+            cursor-pointer
+          "
+        >
+          <CardContent className="p-0">
+            <div
+              className="
+                relative
+                w-full
+                h-[140px]
+                overflow-hidden
+                sm:h-[170px]
+                md:h-[190px]
+                lg:h-[220px]
+                xl:h-[240px]
+              "
+            >
               <Image
                 src={cat.image}
-                alt="image error"
+                alt={cat.name}
                 fill
-                sizes="(max-width:768px) 100vw ,(max-width:1200px) 50vw , 25vw "
+                className="
+                  object-contain
+                "
+                sizes="
+                  (max-width: 640px) 50vw,
+                  (max-width: 768px) 33vw,
+                  (max-width: 1024px) 25vw,
+                  (max-width: 1280px) 20vw,
+                  16.66vw
+                "
               />
             </div>
           </CardContent>
-          <CardFooter>
-            <p className="font-bold hover:text-green-500 ">{cat.name}</p>
+
+          <CardFooter
+            className="
+              flex
+              min-h-[55px]
+              items-center
+              justify-center
+              px-2
+              py-3
+              sm:min-h-[60px]
+              sm:px-3
+              sm:py-4
+            "
+          >
+            <p
+              className="
+                w-full
+                text-center
+                font-bold
+                text-base
+                leading-tight
+                sm:text-lg
+                md:text-xl
+              "
+            >
+              {cat.name}
+            </p>
           </CardFooter>
         </Card>
       ))}
-
     </>
   );
 }
