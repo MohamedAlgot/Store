@@ -8,11 +8,8 @@ import {
 import Link from "next/link";
 import { ShoppingCart, Heart, ShoppingBag, LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-import { sign } from "crypto";
-import { log } from "console";
 import { Badge } from "../ui/badge";
 import { UseCart } from "@/app/context/Cartcontext";
-import WhishList from "@/app/whishlist/page";
 
 export default function Navbar() {
   const session = useSession();
@@ -95,7 +92,7 @@ export default function Navbar() {
                 className="   text-white   hover:text-blue-600 duration-500"
               >
                 <button className=" cursor-pointer relative">
-                  {CartDetails?.numOfCartItems?                  <Badge
+                  {CartDetails?.numOfCartItems? <Badge
                     variant="default"
                     className=" text-white absolute top-[-20px] bg-black  right-[-17px]"
                   >
