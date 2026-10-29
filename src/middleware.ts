@@ -1,15 +1,23 @@
-
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Allow Next.js assets and public images
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/slider/") ||
+    pathname === "/favicon.ico"
+  ) {
+    return NextResponse.next();
+  }
+
   const token =
     request.cookies.get("next-auth.session-token")?.value ||
     request.cookies.get("__Secure-next-auth.session-token")?.value;
 
-  const pathname = request.nextUrl.pathname;
-
-  // Allow Home page for guests
+  // Allow guests to access Home
   if (pathname === "/") {
     return NextResponse.next();
   }
@@ -17,8 +25,10 @@ export function middleware(request: NextRequest) {
   // Redirect guests to login
   if (!token) {
     const loginUrl = new URL("/login", request.url);
-
-    loginUrl.searchParams.set("callbackUrl", pathname);
+    loginUrl.searchParams.set(
+      "callbackUrl",
+      request.nextUrl.pathname + request.nextUrl.search
+    );
 
     return NextResponse.redirect(loginUrl);
   }
@@ -27,7 +37,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!login|register|api|_next/static|_next/image|favicon.ico).*)",
-  ],
+  matcher: ["/((?!login|register|api).*)"],
 };
